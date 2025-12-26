@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserCreateRequest, UserCreateResponse, UserUpdateRequest } from './dto/user.request';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { LoginUserRequest, UserCreateRequest, UserCreateResponse, UserUpdateRequest } from './dto/user.request';
 import { UserRepository } from './users.repository';
 
 @Injectable()
@@ -9,12 +9,11 @@ export class UsersService {
     private readonly userRepository: UserRepository,
   ) { }
   async create(createUserDto: UserCreateRequest): Promise<UserCreateResponse> {
-    const users = await this.userRepository.findUserByEmail(createUserDto.email);
-    if (users.length) {
+    const user = await this.userRepository.findUserByEmail(createUserDto.email);
+    if (user) {
       throw new NotFoundException('User already exists with this email. Please login.');
     }
-    const user = await this.userRepository.createUser(createUserDto);
-    return user;
+    return await this.userRepository.createUser(createUserDto);
   }
 
   async findAll() {
@@ -26,6 +25,18 @@ export class UsersService {
     return {
       data: user
     };
+  }
+
+  async loginUser(req: LoginUserRequest) {
+    const { email, password } = req;
+    const user = await this.userRepository.findUserByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`No user found with the email ${email}`);
+    }
+    if (user.password !== password) {
+      throw new UnauthorizedException('Incorrect password');
+    }
+    return user;
   }
 
   update(id: number, updateUserDto: UserUpdateRequest) {

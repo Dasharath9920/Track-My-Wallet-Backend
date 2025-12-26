@@ -27,3 +27,10 @@ export const createUserResponse = z.object({
 })
 
 export class UserCreateResponse extends createZodDto(createUserResponse) { }
+
+export const loginUserSchema = z.object({
+  email: z.string().email(),
+  password: z.string()
+}).strict();
+
+export class LoginUserRequest extends createZodDto(loginUserSchema) { };

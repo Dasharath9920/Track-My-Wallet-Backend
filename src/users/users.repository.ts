@@ -25,8 +25,8 @@ export class UserRepository {
   }
 
   async findUserByEmail(email: string) {
-    const records = await this.client.selectFrom('user').selectAll().where('email', '=', email).execute();
-    return records;
+    const record = await this.client.selectFrom('user').selectAll().where('email', '=', email).executeTakeFirst();
+    return record;
   }
 
   async findUserById(id: string) {
