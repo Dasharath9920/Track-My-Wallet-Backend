@@ -22,12 +22,6 @@ export class TransactionsController {
     }
     return this.transactionsService.findAll(userId);
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.transactionsService.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
     return this.transactionsService.update(+id, updateTransactionDto);

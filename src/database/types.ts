@@ -25,10 +25,10 @@ export interface PaymentTable {
   id: Generated<string>
   user_id: string
   name: string
-  totalMonths: number
-  monthsRemaining: number
+  total_months: number
+  months_remaining: number
   amount: number
-  dueDate: Generated<Date>
+  due_date: Generated<Date>
   created_at: Generated<Date>
   updated_at: Generated<Date>
 }
