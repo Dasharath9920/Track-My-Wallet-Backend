@@ -14,9 +14,9 @@ export interface TransactionTable {
   id: Generated<string>
   user_id: string
   category: string
-  customCategory: string
+  custom_category: string
   amount: number
-  dateOfTransaction: Generated<Date>
+  date_of_transaction: Generated<Date>
   created_at: Generated<Date>
   updated_at: Generated<Date>
 }

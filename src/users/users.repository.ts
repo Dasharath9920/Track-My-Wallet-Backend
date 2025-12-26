@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Kysely } from "kysely";
 import { KYSELY } from "src/database/database.module";
-import { DB, UserTable } from "src/database/types";
-import { UserCreateRequest, UserCreateResponse } from "./dto/user.request";
+import { DB } from "src/database/types";
+import { UserCreateRequest } from "./dto/user.request";
 
 @Injectable()
 export class UserRepository {

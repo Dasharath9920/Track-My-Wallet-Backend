@@ -22,8 +22,8 @@ export const createUserResponse = z.object({
   firstName: z.string(),
   lastName: z.string(),
   email: z.string(),
-  created_at: z.string(),
-  updated_at: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 })
 
 export class UserCreateResponse extends createZodDto(createUserResponse) { }
