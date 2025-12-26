@@ -36,6 +36,13 @@ export class TransactionsService {
     }
   }
 
+  async getNDaysTransactionsGroupByDays(userId: string, days: number) {
+    const transactions = await this.transactionRepository.getNDaysTransactionsGroupByDate(userId, days);
+    return {
+      data: transactions
+    }
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} transaction`;
   }

@@ -22,6 +22,15 @@ export class TransactionsController {
     }
     return this.transactionsService.findAll(userId);
   }
+
+  @Get(':userId/group-by-day')
+  getTransactionsGroupByDay(
+    @Param('userId') userId: string,
+    @Query('days') days?: number,
+  ) {
+    return this.transactionsService.getNDaysTransactionsGroupByDays(userId, Number(days));
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
     return this.transactionsService.update(+id, updateTransactionDto);
