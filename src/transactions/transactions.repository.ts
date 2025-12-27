@@ -62,7 +62,7 @@ export class TransactionRepository {
         eb.fn.sum<number>('amount').as('amount'),
       ])
       .groupBy('date_of_transaction')
-      .orderBy('date_of_transaction', 'desc')
+      .orderBy('date_of_transaction', 'asc')
       .execute();
     return records;
   }
