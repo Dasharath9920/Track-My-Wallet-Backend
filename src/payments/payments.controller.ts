@@ -17,6 +17,11 @@ export class PaymentsController {
     return this.paymentsService.findAll(userId);
   }
 
+  @Get(':userId/upcoming')
+  findUpcomingPayments(@Param('userId') userId: string) {
+    return this.paymentsService.upcomingPayments(userId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto) {
     return this.paymentsService.update(+id, updatePaymentDto);

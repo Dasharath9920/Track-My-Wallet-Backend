@@ -26,6 +26,16 @@ export class PaymentsService {
     };
   }
 
+  async upcomingPayments(userId: string) {
+    if (!userId) {
+      throw new BadRequestException('User ID is required');
+    }
+    const payments = await this.paymentRepository.upcomingPayments(userId);
+    return {
+      data: payments
+    };
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} payment`;
   }
