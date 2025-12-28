@@ -12,7 +12,28 @@ export class TransactionRepository {
 
   createTransaction = async (transaction: CreateTransactionRequest) => {
     const { user_id, category, customCategory, amount, date_of_transaction } = transaction;
-    const record = await this.client
+
+    const existing = await this.client
+      .selectFrom('transaction')
+      .selectAll()
+      .where('user_id', '=', user_id)
+      .where('date_of_transaction', '=', date_of_transaction)
+      .where('category', '=', category)
+      .executeTakeFirst();
+
+    if (existing) {
+      return await this.client
+        .updateTable('transaction')
+        .set({
+          amount: sql`amount + ${amount}`,
+          updated_at: sql`now()`
+        })
+        .where('id', '=', existing.id)
+        .returningAll()
+        .executeTakeFirst()
+    }
+
+    return await this.client
       .insertInto('transaction')
       .values({
         user_id: user_id,
@@ -24,7 +45,6 @@ export class TransactionRepository {
       .returningAll()
       .execute();
 
-    return record;
   }
 
   getAllTransactions = async (userId: string) => {
