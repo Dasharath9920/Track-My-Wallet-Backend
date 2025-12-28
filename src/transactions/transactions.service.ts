@@ -43,15 +43,12 @@ export class TransactionsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transaction`;
-  }
-
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
+  update(id: string, updateTransactionDto: UpdateTransactionDto) {
     return `This action updates a #${id} transaction`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
+  async remove(id: string, userId: string) {
+    await this.transactionRepository.deleteTransaction(id, userId);
+    return await this.transactionRepository.getAllTransactions(userId);
   }
 }

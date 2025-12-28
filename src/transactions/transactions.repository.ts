@@ -44,7 +44,14 @@ export class TransactionRepository {
       })
       .returningAll()
       .execute();
+  }
 
+  deleteTransaction = async (id: string, userId: string) => {
+    await this.client
+      .deleteFrom('transaction')
+      .where('id', '=', id)
+      .where('user_id', '=', userId)
+      .execute();
   }
 
   getAllTransactions = async (userId: string) => {
