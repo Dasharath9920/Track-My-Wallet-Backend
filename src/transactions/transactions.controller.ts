@@ -31,15 +31,15 @@ export class TransactionsController {
     return this.transactionsService.getNDaysTransactionsGroupByDays(userId, Number(days));
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionsService.update(id, updateTransactionDto);
+  @Patch(':userId')
+  update(@Param('userId') userId: string, @Body() updateTransactionDto: UpdateTransactionDto) {
+    return this.transactionsService.update(userId, updateTransactionDto);
   }
 
-  @Delete(':userId/:id')
+  @Delete(':userId')
   remove(
     @Param('userId') userId: string,
-    @Param('id') id: string) {
+    @Query('id') id: string) {
     return this.transactionsService.remove(id, userId);
   }
 }

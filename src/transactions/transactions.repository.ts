@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Kysely, sql } from "kysely";
 import { KYSELY } from "src/database/database.module";
 import { DB } from "src/database/types";
-import { CreateTransactionRequest } from "./dto/create-transaction.dto";
+import { CreateTransactionRequest, CreateTransactionResponse } from "./dto/create-transaction.dto";
 
 @Injectable()
 export class TransactionRepository {
@@ -91,6 +91,24 @@ export class TransactionRepository {
       .groupBy('date_of_transaction')
       .orderBy('date_of_transaction', 'asc')
       .execute();
+    return records;
+  }
+
+  updateTransaction = async (userId: string, transaction: CreateTransactionResponse) => {
+    const records = await this.client
+      .updateTable('transaction')
+      .set({
+        amount: transaction.amount,
+        updated_at: sql`now()`,
+        custom_category: transaction.customCategory,
+        category: transaction.category,
+        date_of_transaction: transaction.date_of_transaction,
+      })
+      .where('user_id', '=', userId)
+      .where('id', '=', transaction.id)
+      .returningAll()
+      .executeTakeFirst();
+
     return records;
   }
 }

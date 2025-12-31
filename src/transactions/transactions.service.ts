@@ -43,12 +43,19 @@ export class TransactionsService {
     }
   }
 
-  update(id: string, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  async update(userId: string, updateTransactionDto: UpdateTransactionDto) {
+    await this.transactionRepository.updateTransaction(userId, updateTransactionDto);
+    const transactions = await this.transactionRepository.getAllTransactions(updateTransactionDto.user_id);
+    return {
+      data: transactions
+    };
   }
 
   async remove(id: string, userId: string) {
     await this.transactionRepository.deleteTransaction(id, userId);
-    return await this.transactionRepository.getAllTransactions(userId);
+    const data = await this.transactionRepository.getAllTransactions(userId);
+    return {
+      data
+    };
   }
 }
