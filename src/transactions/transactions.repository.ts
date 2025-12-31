@@ -66,7 +66,7 @@ export class TransactionRepository {
 
   getNDaysTransactions = async (userId: string, days: number) => {
     const since = new Date();
-    since.setDate(since.getDate() - days);
+    since.setDate(since.getDate() - (days - 1))
     const records = await this.client
       .selectFrom('transaction')
       .selectAll()
@@ -79,7 +79,7 @@ export class TransactionRepository {
 
   getNDaysTransactionsGroupByDate = async (userId: string, days: number) => {
     const since = new Date();
-    since.setDate(since.getDate() - days);
+    since.setDate(since.getDate() - (days - 1));
     const records = await this.client
       .selectFrom('transaction')
       .where('user_id', '=', userId)
